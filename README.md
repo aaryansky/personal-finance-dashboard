@@ -49,4 +49,14 @@ The project follows the **Model-View-Controller (MVC)** architecture, with Flask
 
 ## 📂 Folder Structure
 
+personal-finance-dashboard/
+├── app/
+│ ├── static/
+│ ├── templates/
+│ └── init.py
+├── instance/
+│ └── config.py
+├── requirements.txt
+├── run.py
+└── README.md
 
