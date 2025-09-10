@@ -82,6 +82,11 @@ finance-dashboard/
 
 3️⃣ **Install dependencies**
 
-         pip install -r requirements.txt
+      pip install -r requirements.txt
+
+4️⃣ **Run the application**
+      
+      python run.py
+
 
 
