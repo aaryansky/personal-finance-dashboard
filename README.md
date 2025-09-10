@@ -30,7 +30,6 @@ The application is powered by Flask and designed to offer seamless interaction w
 
 The project follows the **Model-View-Controller (MVC)** architecture, with Flask handling routing and logic, and user interfaces interacting with backend models.
 
-## 🌐 User Interaction Flow
 
 ## 🌐 User Interaction Flow
 
