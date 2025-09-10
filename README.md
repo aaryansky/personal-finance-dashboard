@@ -30,20 +30,24 @@ The application is powered by Flask and designed to offer seamless interaction w
 
 The project follows the **Model-View-Controller (MVC)** architecture, with Flask handling routing and logic, and user interfaces interacting with backend models.
 
-🌐 User's Browser
-│
-├── 📄 Renders HTML Templates (/templates)
-│   └── User interacts with forms (e.g., adds a transaction)
-│
-├── ➡ Sends HTTP Request to Flask
-│   └── 🔁 Flask Routes (app/routes.py)
-│       ├── Processes the request
-│       ├── ✅ Validates user input using Forms (app/forms.py)
-│       └── 🔄 Interacts with Database Models (app/models.py)
-│           ├── Performs CRUD operations (Create, Read, Update, Delete)
-│           └── 💾 Database (PostgreSQL / SQLite)
-│               ├── Stores user data, transactions, and budgets
-│               └── 🔁 Returns data to the Flask Route
-│
-└── 📄 Renders a new HTML template with the updated data
+## 🌐 User Interaction Flow
+
+```mermaid
+graph TD
+
+    A[🌐 User's Browser] --> B[📄 Renders HTML Templates\n(/templates)]
+    B --> B1[💡 User interacts with forms\n(e.g., adds a transaction)]
+
+    A --> C[➡ Sends HTTP Request to Flask]
+    C --> C1[🔁 Flask Routes\n(app/routes.py)]
+    C1 --> C2[⚙️ Processes the request]
+    C1 --> C3[✅ Validates user input using Forms\n(app/forms.py)]
+    C1 --> C4[🔄 Interacts with Database Models\n(app/models.py)]
+
+    C4 --> C5[📂 Performs CRUD operations\n(Create, Read, Update, Delete)]
+    C4 --> C6[💾 Database\n(PostgreSQL / SQLite)]
+    C6 --> C7[🗄️ Stores user data, transactions, and budgets]
+    C6 --> C8[🔁 Returns data to the Flask Route]
+
+    A --> D[📄 Renders a new HTML template\nwith the updated data]
 
