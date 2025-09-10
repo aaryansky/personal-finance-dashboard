@@ -88,5 +88,9 @@ finance-dashboard/
       
       python run.py
 
+5️⃣ Access the application
+
+➤ Open http://127.0.0.1:5000 in your browser.
+
 
 
