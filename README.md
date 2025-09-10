@@ -92,5 +92,8 @@ finance-dashboard/
 
 ➤ Open http://127.0.0.1:5000 in your browser.
 
+Screenshots:
+
+<img width="421" height="872" alt="image" src="https://github.com/user-attachments/assets/77a3132f-67b9-4920-b413-22aa7391fc01" />
 
 
