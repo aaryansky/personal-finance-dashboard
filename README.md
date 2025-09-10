@@ -70,4 +70,28 @@ finance-dashboard/
 git clone https://github.com/your-username/your-repo-name.git
 cd your-repo-name
 
+2️⃣ Create and activate a virtual environment
+
+For macOS/Linux:
+
+python3 -m venv venv
+source venv/bin/activate
+
+
+For Windows:
+
+python -m venv venv
+.\venv\Scripts\activate
+
+3️⃣ Install dependencies
+pip install -r requirements.txt
+
+4️⃣ Run the application
+python run.py
+
+5️⃣ Access the application
+
+Open http://127.0.0.1:5000
+ in your browser.
+
 
