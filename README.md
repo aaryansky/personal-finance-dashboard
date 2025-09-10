@@ -32,22 +32,24 @@ The project follows the **Model-View-Controller (MVC)** architecture, with Flask
 
 ## 🌐 User Interaction Flow
 
+## 🌐 User Interaction Flow
+
 ```mermaid
 graph TD
 
-    A[🌐 User's Browser] --> B[📄 Renders HTML Templates\n(/templates)]
-    B --> B1[💡 User interacts with forms\n(e.g., adds a transaction)]
+    A[🌐 User's Browser] --> B[📄 Renders Templates]
+    B --> B1[💡 Interacts with forms]
 
-    A --> C[➡ Sends HTTP Request to Flask]
-    C --> C1[🔁 Flask Routes\n(app/routes.py)]
-    C1 --> C2[⚙️ Processes the request]
-    C1 --> C3[✅ Validates user input using Forms\n(app/forms.py)]
-    C1 --> C4[🔄 Interacts with Database Models\n(app/models.py)]
+    A --> C[➡ Sends HTTP Request]
+    C --> C1[🔁 Flask Routes]
+    C1 --> C2[⚙️ Processes request]
+    C1 --> C3[✅ Validates input]
+    C1 --> C4[🔄 Interacts with Models]
+    C4 --> C5[📂 Performs CRUD ops]
+    C4 --> C6[💾 Database]
+    C6 --> C7[🗄️ Stores data]
+    C6 --> C8[🔁 Returns data]
 
-    C4 --> C5[📂 Performs CRUD operations\n(Create, Read, Update, Delete)]
-    C4 --> C6[💾 Database\n(PostgreSQL / SQLite)]
-    C6 --> C7[🗄️ Stores user data, transactions, and budgets]
-    C6 --> C8[🔁 Returns data to the Flask Route]
+    A --> D[📄 Renders new template]
 
-    A --> D[📄 Renders a new HTML template\nwith the updated data]
 
