@@ -64,6 +64,15 @@ finance-dashboard/
 
 1️⃣ **Clone the repository**
 
-   ```bash
+   ```sh
    git clone https://github.com/your-username/your-repo-name.git
    cd your-repo-name
+   ```
+2️⃣ **Create and activate a virtual environment**
+
+   ➤ For macOS/Linux:
+
+      ```sh
+      python3 -m venv venv
+      source venv/bin/activate
+      ```
