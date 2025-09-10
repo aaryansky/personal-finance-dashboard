@@ -33,23 +33,28 @@ The project follows the **Model-View-Controller (MVC)** architecture, with Flask
 
 ## 🌐 User Interaction Flow
 
-```mermaid
-graph TD
+📂 Raw Data Files
+ ├── 📄 PDFs (RBI Reports, Budgets, etc.)
+ ├── 📊 CSVs (G-Sec Auctions, State Indicators)
 
-    A[🌐 User's Browser] --> B[📄 Renders Templates]
-    B --> B1[💡 Interacts with forms]
+➡ Data Processing Backend (/notebooks)
+ ├── 🧠 RAG Pipeline → data_ingestion_and_cleaning.ipynb
+ ├── 🗄️ SQL Pipeline → structured_data_sql.ipynb, add_auction_data_to_db.ipynb
+ ├── 📈 Forecasting Pipeline → create_forecasting_dataset.ipynb, build_forecasting_model.ipynb
 
-    A --> C[➡ Sends HTTP Request]
-    C --> C1[🔁 Flask Routes]
-    C1 --> C2[⚙️ Processes request]
-    C1 --> C3[✅ Validates input]
-    C1 --> C4[🔄 Interacts with Models]
-    C4 --> C5[📂 Performs CRUD ops]
-    C4 --> C6[💾 Database]
-    C6 --> C7[🗄️ Stores data]
-    C6 --> C8[🔁 Returns data]
+➡ Processed Assets
+ ├── 📦 /data/processed
+ └── 📂 /vector_store
 
-    A --> D[📄 Renders new template]
+➡ Databases & Tools
+ ├── 🧠 Chroma Vector Store
+ ├── 🗃️ SQLite Database → esd_indicators.sqlite
+ └── 📊 Forecasting Dataset → final_forecasting_dataset.csv
+
+➡ Frontend & Logic (app.py)
+ ├── 🎨 Streamlit UI (Chat Interface)
+ ├── 🧠 LangChain AgentExecutor (The Brain)
+ └── 🛠️ Tools → PDF Search, SQL Query, Forecasting
 
 ## 📂 Folder Structure
 
