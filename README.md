@@ -33,31 +33,18 @@ The project follows the **Model-View-Controller (MVC)** architecture, with Flask
 
 ## 🌐 User Interaction Flow
 
-graph TD
-    A[🌐 User's Browser]
-    A1[📄 Renders HTML Templates (/templates)]
-    A2[User interacts with forms (e.g., adds a transaction)]
-    A3[➡ Sends HTTP Request to Flask]
-    B[🔁 Flask Routes (app/routes.py)]
-    B1[Processes the request]
-    B2[✅ Validates user input using Forms (app/forms.py)]
-    B3[🔄 Interacts with Database Models (app/models.py)]
-    B3a[Performs CRUD operations (Create, Read, Update, Delete)]
-    B3b[💾 Database (PostgreSQL / SQLite)]
-    B3b1[Stores user data, transactions, and budgets]
-    B3b2[🔁 Returns data to the Flask Route]
-
-    A --> A1
-    A --> A2
-    A --> A3
-    A3 --> B
-    B --> B1
-    B --> B2
-    B --> B3
-    B3 --> B3a
-    B3 --> B3b
-    B3b --> B3b1
-    B3b --> B3b2
+🌐 User's Browser  
+├── 📄 Renders HTML Templates (/templates)  
+├── User interacts with forms (e.g., adds a transaction)  
+├── ➡ Sends HTTP Request to Flask  
+├── 🔁 Flask Routes (app/routes.py)  
+│   ├── Processes the request  
+│   ├── ✅ Validates user input using Forms (app/forms.py)  
+│   └── 🔄 Interacts with Database Models (app/models.py)  
+│       ├── Performs CRUD operations (Create, Read, Update, Delete)  
+│       └── 💾 Database (PostgreSQL / SQLite)  
+│           ├── Stores user data, transactions, and budgets  
+│           └── 🔁 Returns data to the Flask Route
 
 
 ## 📂 Folder Structure
