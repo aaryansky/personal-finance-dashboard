@@ -30,3 +30,16 @@ The application is powered by Flask and designed to offer seamless interaction w
 
 The project follows the **Model-View-Controller (MVC)** architecture, with Flask handling routing and logic, and user interfaces interacting with backend models.
 
+🌐 User's Browser
+└── 📄 Renders HTML Templates (/templates)
+└── User interacts with forms (e.g., adds a transaction)
+└── ➡ Sends HTTP Request to Flask
+└── 🔁 Flask Routes (app/routes.py)
+└── Processes the request
+└── ✅ Validates user input using Forms (app/forms.py)
+└── 🔄 Interacts with Database Models (app/models.py)
+├── Performs CRUD operations (Create, Read, Update, Delete)
+└── 💾 Database (PostgreSQL / SQLite)
+└── Stores user data, transactions, and budgets
+└── 🔁 Returns data to the Flask Route
+└── 📄 Renders a new HTML template with the updated data
