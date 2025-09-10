@@ -80,4 +80,8 @@ finance-dashboard/
       python -m venv venv
       .\venv\Scripts\activate
 
+3️⃣ **Install dependencies**
+
+         pip install -r requirements.txt
+
 
