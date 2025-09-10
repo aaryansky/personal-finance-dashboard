@@ -51,4 +51,6 @@ graph TD
 
     A --> D[📄 Renders new template]
 
+## 📂 Folder Structure
+
 
