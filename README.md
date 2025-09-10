@@ -21,26 +21,20 @@ Live Demo: [--> Add the Link to your deployed application here when ready! <--]
 ⚙️ Project Architecture & Workflow
 The application follows the Model-View-Controller (MVC) pattern, where Flask handles the routing and controller logic, connecting the user-facing templates with the backend database models.
 
-📁 User's Browser
- │
- └── 📄 Renders HTML Templates (`/templates`)
-      │  - User interacts with forms (e.g., adds a transaction)
-      │
-      └──➡️ Sends HTTP Request to Flask
-           │
-           └── 🐍 Flask Routes (`app/routes.py`)
-                │  - Processes the request
-                │  - Validates user input using Forms (`app/forms.py`)
-                │
-                └──🔄 Interacts with Database Models (`app/models.py`)
-                     │  - Performs CRUD operations (Create, Read, Update, Delete)
-                     │
-                     └──💾 Database (PostgreSQL / SQLite)
-                          │  - Stores user data, transactions, and budgets
-                          │
-                          └──↩️ Returns data to the Flask Route
-                               │
-                               └── 📄 Renders a new HTML template with the updated data
+🌐 User's Browser
+ └── 📄 Renders HTML Templates (/templates)
+      └── User interacts with forms (e.g., adds a transaction)
+           └── ➡ Sends HTTP Request to Flask
+                └── 🔁 Flask Routes (app/routes.py)
+                     └── Processes the request
+                          └── ✅ Validates user input using Forms (app/forms.py)
+                               └── 🔄 Interacts with Database Models (app/models.py)
+                                    ├── Performs CRUD operations (Create, Read, Update, Delete)
+                                    └── 💾 Database (PostgreSQL / SQLite)
+                                         └── Stores user data, transactions, and budgets
+                                              └── 🔁 Returns data to the Flask Route
+                                                   └── 📄 Renders a new HTML template with the updated data
+
 
 🛠️ Tech Stack
 Backend:
