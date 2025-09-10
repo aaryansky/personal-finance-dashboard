@@ -60,37 +60,10 @@ finance-dashboard/
 ├── run.py  
 └── README.md
 
+📦 **Setup & Local Installation**
 
-📦 Setup & Local Installation
-│
-├── 1️⃣ Clone the repository
-│   └── ```bash
-│       git clone https://github.com/your-username/your-repo-name.git
-│       cd your-repo-name
-│       ```
-│
-├── 2️⃣ Create and activate a virtual environment
-│   ├── For macOS/Linux:
-│   │   └── ```bash
-│   │       python3 -m venv venv
-│   │       source venv/bin/activate
-│   │       ```
-│   └── For Windows:
-│       └── ```bash
-│           python -m venv venv
-│           .\venv\Scripts\activate
-│           ```
-│
-├── 3️⃣ Install dependencies
-│   └── ```bash
-│       pip install -r requirements.txt
-│       ```
-│
-├── 4️⃣ Run the application
-│   └── ```bash
-│       python run.py
-│       ```
-│
-└── 5️⃣ Access the application
-    └── Open [http://127.0.0.1:5000](http://127.0.0.1:5000) in your browser.
+1️⃣ **Clone the repository**
 
+   ```bash
+   git clone https://github.com/your-username/your-repo-name.git
+   cd your-repo-name
