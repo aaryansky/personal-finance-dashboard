@@ -92,6 +92,9 @@ finance-dashboard/
 
 ➤ Open http://127.0.0.1:5000 in your browser.
 
+**Live Demo:**
+https://personal-finance-dashboard-8prz.onrender.com/index
+
 📸 Screenshots:
 
 <img width="870" height="357" alt="image" src="https://github.com/user-attachments/assets/015d2bcb-7ee8-40e9-aceb-cfb58bf15587" />
