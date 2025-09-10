@@ -1,8 +1,6 @@
-# app/routes.py
 from flask import render_template, Blueprint, flash, redirect, url_for, request, abort
 from flask_login import login_user, current_user, logout_user, login_required
 from app import db
-# MODIFIED: Added CSVUploadForm
 from app.forms import RegistrationForm, LoginForm, TransactionForm, BudgetForm, CSVUploadForm
 from app.models import User, Transaction, Budget
 from sqlalchemy import func
@@ -20,9 +18,10 @@ main = Blueprint('main', __name__)
 def index():
     return render_template('index.html', title='Home')
 
+# ... (register, login, logout routes remain the same) ...
+
 @main.route('/register', methods=['GET', 'POST'])
 def register():
-    # This function remains the same
     if current_user.is_authenticated:
         return redirect(url_for('main.dashboard'))
     form = RegistrationForm()
@@ -38,7 +37,6 @@ def register():
 
 @main.route('/login', methods=['GET', 'POST'])
 def login():
-    # This function remains the same
     if current_user.is_authenticated:
         return redirect(url_for('main.dashboard'))
     form = LoginForm()
@@ -55,15 +53,15 @@ def login():
 
 @main.route('/logout')
 def logout():
-    # This function remains the same
     logout_user()
     return redirect(url_for('main.index'))
 
 
+# --- THIS IS THE FINAL, CORRECTED DASHBOARD ROUTE ---
 @main.route('/dashboard', methods=['GET', 'POST'])
 @login_required
 def dashboard():
-    # This function remains the same
+    # ... (Date Filter and Form submission logic remains the same) ...
     try:
         selected_month = int(request.args.get('month', datetime.utcnow().month))
         selected_year = int(request.args.get('year', datetime.utcnow().year))
@@ -84,6 +82,7 @@ def dashboard():
         flash('Your transaction has been added!', 'success')
         return redirect(url_for('main.dashboard', month=selected_month, year=selected_year))
 
+    # ... (Pie Chart and Summary logic remains the same) ...
     total_income = db.session.query(func.sum(Transaction.amount)).filter(
         Transaction.user_id == current_user.id, Transaction.type == 'income',
         func.extract('month', Transaction.date) == selected_month,
@@ -105,18 +104,26 @@ def dashboard():
     expense_labels = [item[0] for item in expense_data]
     expense_values = [float(item[1]) for item in expense_data]
     
+    # --- MODIFIED: BAR CHART LOGIC IS NOW DATABASE-AWARE ---
     six_months_ago = datetime.utcnow() - relativedelta(months=5)
     six_months_ago = six_months_ago.replace(day=1)
 
+    # Check which database dialect is being used
+    if db.get_engine().dialect.name == 'postgresql':
+        date_format_str = func.to_char(Transaction.date, 'YYYY-MM')
+    else: # Default to SQLite
+        date_format_str = func.strftime('%Y-%m', Transaction.date)
+
     monthly_data_query = db.session.query(
-        func.strftime('%Y-%m', Transaction.date).label('month_str'),
+        date_format_str.label('month_str'),
         Transaction.type,
         func.sum(Transaction.amount).label('total')
     ).filter(
         Transaction.user_id == current_user.id,
         Transaction.date >= six_months_ago
     ).group_by('month_str', Transaction.type).order_by('month_str').all()
-
+    
+    # ... (The rest of the bar chart and budget logic remains the same) ...
     monthly_totals = defaultdict(lambda: {'income': 0, 'expense': 0})
     for month_str, trans_type, total in monthly_data_query:
         month_dt = datetime.strptime(month_str, '%Y-%m')
@@ -146,13 +153,16 @@ def dashboard():
         budget = budgets_dict.get(category, 0)
         percentage = (spent / budget * 100) if budget > 0 else 0
         budget_progress.append({
-            'category': category,
-            'spent': spent,
-            'budget': budget,
-            'percentage': percentage
+            'category': category, 'spent': spent,
+            'budget': budget, 'percentage': percentage
         })
 
-    transactions = Transaction.query.filter_by(user_id=current_user.id).order_by(Transaction.date.desc()).all()
+    # MODIFIED: The transaction history table now filters by the selected month and year.
+    transactions = Transaction.query.filter(
+        Transaction.user_id == current_user.id,
+        func.extract('month', Transaction.date) == selected_month,
+        func.extract('year', Transaction.date) == selected_year
+    ).order_by(Transaction.date.desc()).all()
     
     return render_template('dashboard.html', title='Dashboard', form=form, transactions=transactions,
                            total_income=total_income, total_expenses=total_expenses, net_balance=net_balance,
@@ -163,11 +173,11 @@ def dashboard():
                            expense_data_bar=expense_data_bar,
                            budget_progress=budget_progress)
 
+# ... (all other routes for update, delete, budgets, import, export remain the same) ...
 
 @main.route('/transaction/<int:transaction_id>/update', methods=['GET', 'POST'])
 @login_required
 def update_transaction(transaction_id):
-    # This function remains the same
     transaction = Transaction.query.get_or_404(transaction_id)
     if transaction.owner != current_user:
         abort(403)
@@ -194,7 +204,6 @@ def update_transaction(transaction_id):
 @main.route('/transaction/<int:transaction_id>/delete', methods=['POST'])
 @login_required
 def delete_transaction(transaction_id):
-    # This function remains the same
     transaction = Transaction.query.get_or_404(transaction_id)
     if transaction.owner != current_user:
         abort(403)
@@ -207,7 +216,6 @@ def delete_transaction(transaction_id):
 @main.route('/budgets', methods=['GET', 'POST'])
 @login_required
 def budgets():
-    # This function remains the same
     try:
         selected_month = int(request.args.get('month', datetime.utcnow().month))
         selected_year = int(request.args.get('year', datetime.utcnow().year))
@@ -246,7 +254,6 @@ def budgets():
 @main.route('/budget/<int:budget_id>/delete', methods=['POST'])
 @login_required
 def delete_budget(budget_id):
-    # This function remains the same
     budget = Budget.query.get_or_404(budget_id)
     if budget.user_id != current_user.id:
         abort(403)
@@ -258,88 +265,60 @@ def delete_budget(budget_id):
     flash('Budget has been deleted!', 'success')
     return redirect(url_for('main.budgets', month=month, year=year))
 
-
-@main.route('/export_csv')
-@login_required
-def export_csv():
-    # This function remains the same
-    try:
-        month = int(request.args.get('month', datetime.utcnow().month))
-        year = int(request.args.get('year', datetime.utcnow().year))
-    except (ValueError, TypeError):
-        month = datetime.utcnow().month
-        year = datetime.utcnow().year
-
-    transactions = Transaction.query.filter(
-        Transaction.user_id == current_user.id,
-        func.extract('month', Transaction.date) == month,
-        func.extract('year', Transaction.date) == year
-    ).order_by(Transaction.date.asc()).all()
-
-    output = io.StringIO()
-    writer = csv.writer(output)
-    writer.writerow(['Date', 'Type', 'Category', 'Amount', 'Description'])
-    for t in transactions:
-        writer.writerow([t.date.strftime('%Y-%m-%d'), t.type, t.category, t.amount, t.description])
-
-    output.seek(0)
-    filename = f"transactions_{year}_{month:02d}.csv"
-    return Response(
-        output,
-        mimetype="text/csv",
-        headers={"Content-Disposition": f"attachment;filename={filename}"}
-    )
-
-# --- NEWLY ADDED CODE STARTS HERE ---
 @main.route('/import_csv', methods=['GET', 'POST'])
 @login_required
 def import_csv():
     form = CSVUploadForm()
     if form.validate_on_submit():
         try:
-            # Read the uploaded file in text mode
             csv_file = io.TextIOWrapper(form.csv_file.data, encoding='utf-8')
             reader = csv.reader(csv_file)
-            
-            # Skip the header row if your CSV has one
-            next(reader, None)  
-            
+            next(reader, None)
             transactions_to_add = []
             for row in reader:
-                # Basic validation for row structure
-                if len(row) < 4:
-                    continue 
-
-                # Parse and create a new Transaction object
+                if len(row) < 4: continue
                 transaction_date = datetime.strptime(row[0], '%Y-%m-%d').date()
                 transaction_amount = float(row[1])
                 transaction_type = row[2].lower()
                 transaction_category = row[3]
                 transaction_description = row[4] if len(row) > 4 else None
-
-                # Ensure type is either 'income' or 'expense'
-                if transaction_type not in ['income', 'expense']:
-                    continue
-
+                if transaction_type not in ['income', 'expense']: continue
                 transaction = Transaction(
-                    date=transaction_date,
-                    amount=transaction_amount,
-                    type=transaction_type,
-                    category=transaction_category,
-                    description=transaction_description,
-                    owner=current_user
-                )
+                    date=transaction_date, amount=transaction_amount, type=transaction_type,
+                    category=transaction_category, description=transaction_description,
+                    owner=current_user)
                 transactions_to_add.append(transaction)
-            
-            # Add all new transactions to the database session at once
             db.session.add_all(transactions_to_add)
             db.session.commit()
-            
             flash(f'{len(transactions_to_add)} transactions have been successfully imported!', 'success')
             return redirect(url_for('main.dashboard'))
-
         except Exception as e:
             db.session.rollback()
-            flash(f'An error occurred during import: {e}. Please check the file format and try again.', 'danger')
-
+            flash(f'An error occurred during import: {e}. Please check the file format.', 'danger')
     return render_template('import_csv.html', title='Import CSV', form=form)
+
+@main.route('/export_csv')
+@login_required
+def export_csv():
+    try:
+        month = int(request.args.get('month', datetime.utcnow().month))
+        year = int(request.args.get('year', datetime.utcnow().year))
+    except (ValueError, TypeError):
+        month = datetime.utcnow().month
+        year = datetime.utcnow().year
+    transactions = Transaction.query.filter(
+        Transaction.user_id == current_user.id,
+        func.extract('month', Transaction.date) == month,
+        func.extract('year', Transaction.date) == year
+    ).order_by(Transaction.date.asc()).all()
+    output = io.StringIO()
+    writer = csv.writer(output)
+    writer.writerow(['Date', 'Type', 'Category', 'Amount', 'Description'])
+    for t in transactions:
+        writer.writerow([t.date.strftime('%Y-%m-%d'), t.type, t.category, t.amount, t.description])
+    output.seek(0)
+    filename = f"transactions_{year}_{month:02d}.csv"
+    return Response(
+        output, mimetype="text/csv",
+        headers={"Content-Disposition": f"attachment;filename={filename}"})
+
