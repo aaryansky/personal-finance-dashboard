@@ -72,7 +72,6 @@ finance-dashboard/
 
    ➤ For macOS/Linux:
 
-      ```sh
       python3 -m venv venv
       source venv/bin/activate
-      ```
+
