@@ -92,8 +92,17 @@ finance-dashboard/
 
 ➤ Open http://127.0.0.1:5000 in your browser.
 
-Screenshots:
+📸 Screenshots:
+
+<img width="870" height="357" alt="image" src="https://github.com/user-attachments/assets/015d2bcb-7ee8-40e9-aceb-cfb58bf15587" />
 
 <img width="421" height="872" alt="image" src="https://github.com/user-attachments/assets/77a3132f-67b9-4920-b413-22aa7391fc01" />
+
+<img width="834" height="694" alt="image" src="https://github.com/user-attachments/assets/abce5868-f304-4285-a48d-7f48dbbefd7a" />
+
+<img width="897" height="748" alt="image" src="https://github.com/user-attachments/assets/641f10fd-b804-4705-8aaf-a974234eab4a" />
+
+
+
 
 
