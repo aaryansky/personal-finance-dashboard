@@ -49,7 +49,7 @@ The project follows the **Model-View-Controller (MVC)** architecture, with Flask
 
 ## 📂 Folder Structure
 
-your-repo-name/  
+finance-dashboard/  
 ├── app/  
 │   ├── static/  
 │   ├── templates/  
