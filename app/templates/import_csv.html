@@ -1,0 +1,32 @@
+<!-- app/templates/import_csv.html -->
+{% extends "base.html" %}
+{% block content %}
+    <article>
+        <hgroup>
+            <h1>Import Transactions from CSV</h1>
+            <p>Upload a CSV file with your bank transactions to import them automatically.</p>
+        </hgroup>
+
+        <p><strong>Important:</strong> Your CSV file must have the following columns in this exact order:</p>
+        <ol>
+            <li><strong>Date</strong> (format: YYYY-MM-DD)</li>
+            <li><strong>Amount</strong> (a positive number)</li>
+            <li><strong>Type</strong> (either 'income' or 'expense')</li>
+            <li><strong>Category</strong> (e.g., Groceries, Salary)</li>
+            <li><strong>Description</strong> (optional)</li>
+        </ol>
+        
+        <p>You can <a href="{{ url_for('main.export_csv') }}">download your existing data</a> to see an example of the correct format.</p>
+
+        <form method="POST" enctype="multipart/form-data">
+            {{ form.hidden_tag() }}
+            <label for="csv_file">{{ form.csv_file.label }}</label>
+            {{ form.csv_file() }}
+            {% for error in form.csv_file.errors %}
+                <small style="color: var(--pico-color-red-500);">{{ error }}</small>
+            {% endfor %}
+            <br>
+            {{ form.submit() }}
+        </form>
+    </article>
+{% endblock %}

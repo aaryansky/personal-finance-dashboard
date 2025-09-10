@@ -1,0 +1,54 @@
+{% extends "base.html" %}
+{% block content %}
+    <h1>Manage Budgets for {{ month_name }} {{ selected_year }}</h1>
+
+    <!-- Date Filter -->
+    <form method="GET" action="{{ url_for('main.budgets') }}">
+      <div class="grid">
+        <select name="month" required>{% for i in range(1, 13) %}<option value="{{ i }}" {% if i == selected_month %}selected{% endif %}>{{ i }}</option>{% endfor %}</select>
+        <select name="year" required>{% for year in years %}<option value="{{ year }}" {% if year == selected_year %}selected{% endif %}>{{ year }}</option>{% endfor %}</select>
+        <button type="submit">Filter</button>
+      </div>
+    </form>
+
+    <!-- Form to Add/Update Budget -->
+    <article>
+        <hgroup>
+            <h2>Set New Budget</h2>
+            <p>Enter a category and the amount you want to budget for it this month.</p>
+        </hgroup>
+        <form method="POST" action="">
+            {{ form.hidden_tag() }}
+            <div class="grid">
+                {{ form.category(placeholder="Category (e.g., Groceries)") }}
+                {{ form.amount(placeholder="Amount (e.g., 400.00)") }}
+                {{ form.submit() }}
+            </div>
+        </form>
+    </article>
+
+    <!-- Table of Existing Budgets -->
+    <h2>Existing Budgets</h2>
+    {% if budgets %}
+        <table>
+            <thead><tr><th>Category</th><th>Amount</th><th>Action</th></tr></thead>
+            <tbody>
+            {% for budget in budgets %}
+                <tr>
+                    <td>{{ budget.category }}</td>
+                    <!-- THIS LINE IS MODIFIED -->
+                    <td>₹{{ "%.2f"|format(budget.amount) }}</td>
+                    <td>
+                        <form action="{{ url_for('main.delete_budget', budget_id=budget.id) }}" method="POST">
+                            <button type="submit" class="secondary outline">Delete</button>
+                        </form>
+                    </td>
+                </tr>
+            {% endfor %}
+            </tbody>
+        </table>
+    {% else %}
+        <p>No budgets set for this month.</p>
+    {% endif %}
+
+{% endblock %}
