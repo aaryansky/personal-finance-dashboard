@@ -33,28 +33,32 @@ The project follows the **Model-View-Controller (MVC)** architecture, with Flask
 
 ## 🌐 User Interaction Flow
 
-📂 Raw Data Files
- ├── 📄 PDFs (RBI Reports, Budgets, etc.)
- ├── 📊 CSVs (G-Sec Auctions, State Indicators)
+graph TD
+    A[🌐 User's Browser]
+    A1[📄 Renders HTML Templates (/templates)]
+    A2[User interacts with forms (e.g., adds a transaction)]
+    A3[➡ Sends HTTP Request to Flask]
+    B[🔁 Flask Routes (app/routes.py)]
+    B1[Processes the request]
+    B2[✅ Validates user input using Forms (app/forms.py)]
+    B3[🔄 Interacts with Database Models (app/models.py)]
+    B3a[Performs CRUD operations (Create, Read, Update, Delete)]
+    B3b[💾 Database (PostgreSQL / SQLite)]
+    B3b1[Stores user data, transactions, and budgets]
+    B3b2[🔁 Returns data to the Flask Route]
 
-➡ Data Processing Backend (/notebooks)
- ├── 🧠 RAG Pipeline → data_ingestion_and_cleaning.ipynb
- ├── 🗄️ SQL Pipeline → structured_data_sql.ipynb, add_auction_data_to_db.ipynb
- ├── 📈 Forecasting Pipeline → create_forecasting_dataset.ipynb, build_forecasting_model.ipynb
+    A --> A1
+    A --> A2
+    A --> A3
+    A3 --> B
+    B --> B1
+    B --> B2
+    B --> B3
+    B3 --> B3a
+    B3 --> B3b
+    B3b --> B3b1
+    B3b --> B3b2
 
-➡ Processed Assets
- ├── 📦 /data/processed
- └── 📂 /vector_store
-
-➡ Databases & Tools
- ├── 🧠 Chroma Vector Store
- ├── 🗃️ SQLite Database → esd_indicators.sqlite
- └── 📊 Forecasting Dataset → final_forecasting_dataset.csv
-
-➡ Frontend & Logic (app.py)
- ├── 🎨 Streamlit UI (Chat Interface)
- ├── 🧠 LangChain AgentExecutor (The Brain)
- └── 🛠️ Tools → PDF Search, SQL Query, Forecasting
 
 ## 📂 Folder Structure
 
